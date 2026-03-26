@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Patify</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #101010;
+      color: #e0e0e0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      padding: 2rem 2.25rem;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .logo {
+      display: block;
+      height: 48px;
+      width: auto;
+      margin: 0 auto 1.25rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-align: center;
+      color: #fff;
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #888;
+      font-size: 0.9rem;
+      margin-bottom: 1.75rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-bottom: 0.35rem;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #e0e0e0;
+      font-size: 0.95rem;
+      padding: 0.6rem 0.75rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.15s;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #00a4dc;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      background: #00a4dc;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 0.7rem;
+      margin-top: 0.25rem;
+      transition: background 0.15s, opacity 0.15s;
+    }
+
+    button[type="submit"]:hover:not(:disabled) { background: #0092c5; }
+    button[type="submit"]:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    #status {
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      text-align: center;
+      min-height: 1.25rem;
+    }
+
+    #status.error { color: #f87171; }
+    #status.success { color: #4ade80; }
+    #status.loading { color: #888; }
+
+    /* Expired / invalid state */
+    #expired {
+      display: none;
+      text-align: center;
+    }
+
+    #expired h2 {
+      color: #f87171;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    #expired p { color: #888; font-size: 0.9rem; }
+
+    /* Tips */
+    .tips {
+      margin-top: 2rem;
+      border-top: 1px solid #2a2a2a;
+      padding-top: 1.25rem;
+    }
+
+    .tips h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #555;
+      margin-bottom: 0.75rem;
+    }
+
+    .tips ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .tips li {
+      font-size: 0.85rem;
+      color: #777;
+      padding: 0.25rem 0;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .tips li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #00a4dc;
+    }
+
+    .tips a { color: #00a4dc; text-decoration: none; }
+    .tips a:hover { text-decoration: underline; }
+
+    .tips-sub {
+      list-style: none;
+      padding: 0.4rem 0 0.2rem 1rem;
+    }
+
+    .tips-sub li {
+      font-size: 0.82rem;
+      color: #666;
+      padding: 0.15rem 0;
+      padding-left: 1rem;
+    }
+
+    .tips-sub li::before {
+      content: "›";
+      position: absolute;
+      left: 0;
+      color: #444;
+    }
+
+    .or-divider {
+      color: #555 !important;
+      padding-left: 0 !important;
+      text-align: center;
+      margin: 0.4rem 0;
+    }
+
+    .or-divider::before { display: none; }
+
+    .or-divider span {
+      color: #00a4dc;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <!-- Logo -->
+  <img src="app_banner.svg" alt="Patify" class="logo">
+
+  <!-- Expired / invalid state -->
+  <div id="expired">
+    <h2>Invite link invalid</h2>
+    <p>This invite link has already been used or is no longer valid. Contact the server admin for a new one.</p>
+  </div>
+
+  <!-- Registration form -->
+  <div id="main">
+    <h1>Welcome to Patify</h1>
+    <p class="subtitle">Create your account to start watching.</p>
+
+    <form id="register-form" autocomplete="off">
+      <label for="username">Username</label>
+      <input id="username" type="text" placeholder="Pick a username" autocomplete="username" required>
+
+      <label for="password">Password</label>
+      <input id="password" type="password" placeholder="Choose a password" autocomplete="new-password" required>
+
+      <label for="confirm">Confirm Password</label>
+      <input id="confirm" type="password" placeholder="Repeat your password" autocomplete="new-password" required>
+
+      <button type="submit" id="submit-btn">Create Account</button>
+    </form>
+
+    <div id="status"></div>
+  </div>
+
+  <!-- Tips -->
+  <div class="tips">
+    <h3>Getting started</h3>
+    <ul>
+      <li>When logging on for the first time, the server url will be <strong>https://jelly.mypatify.com</strong></li>
+      <li>Visit <a href="https://mypatify.com" target="_blank">mypatify.com</a> to browse and add movies &amp; shows</li>
+      <li>Download the <strong>Jellyfin</strong> app on your streaming device
+        <ul class="tips-sub">
+          <li><strong>Infuse</strong> — Apple TV / iOS</li>
+          <li><strong>Swiftfin</strong> — iPhone / iPad</li>
+          <li><strong>Finamp</strong> — music</li>
+          <li><strong>Wholphin</strong> or <strong>Moonfin</strong> — Firestick &amp; Onn streaming box</li>
+        </ul>
+      </li>
+      <li class="or-divider"><span>— &nbsp;OR&nbsp; —</span> use the official <strong>Jellyfin</strong> app</li>
+      <li>Streaming sticks beat smart TV apps — Firestick, Onn box, Nvidia Shield, or Roku</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  // ─── CONFIG ──────────────────────────────────────────────────────────────────
+  // Edit these values before distributing the invite link.
+  const CONFIG = {
+    serverUrl: "https://jelly.mypatify.com",  // no trailing slash
+    apiKey: "c4de5725300f41afb7c6d4b352bb4a2e",
+
+    singleUse: true,
+    singleUseToken: "__TOKEN__",     // injected at container startup
+
+    newUserPolicy: {
+      IsAdministrator: false,
+      EnableRemoteAccess: true,
+      EnableMediaPlayback: true,
+      EnableAudioPlaybackTranscoding: true,
+      EnableVideoPlaybackTranscoding: true,
+      EnablePlaybackRemuxing: true,
+      EnableContentDeletion: false,
+      EnableContentDownloading: true,
+      SimultaneousStreamLimit: 2
+    }
+  };
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  const formEl    = document.getElementById("register-form");
+  const mainEl    = document.getElementById("main");
+  const expiredEl = document.getElementById("expired");
+  const statusEl  = document.getElementById("status");
+  const submitBtn = document.getElementById("submit-btn");
+
+  function showExpired() {
+    mainEl.style.display = "none";
+    expiredEl.style.display = "block";
+  }
+
+  function setStatus(msg, type) {
+    statusEl.textContent = msg;
+    statusEl.className = type || "";
+  }
+
+  // ── Token check ──────────────────────────────────────────────────────────────
+  if (CONFIG.singleUse) {
+    const params   = new URLSearchParams(window.location.search);
+    const token    = params.get("token");
+    const usedKey  = "jf_used_" + CONFIG.singleUseToken;
+
+    if (token !== CONFIG.singleUseToken || localStorage.getItem(usedKey)) {
+      showExpired();
+    }
+  }
+
+  // ── Form submit ───────────────────────────────────────────────────────────────
+  formEl.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+    const confirm  = document.getElementById("confirm").value;
+
+    if (!username) { setStatus("Please enter a username.", "error"); return; }
+    if (!password) { setStatus("Please enter a password.", "error"); return; }
+    if (password !== confirm) { setStatus("Passwords do not match.", "error"); return; }
+
+    submitBtn.disabled = true;
+    setStatus("Creating your account…", "loading");
+
+    try {
+      // Step 1: create user
+      const createRes = await fetch(`${CONFIG.serverUrl}/Users/New`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Emby-Authorization": `MediaBrowser Token="${CONFIG.apiKey}"`,
+        },
+        body: JSON.stringify({ Name: username, Password: password }),
+      });
+
+      if (!createRes.ok) {
+        if (createRes.status === 400) throw new Error("That username is already taken. Try another.");
+        if (createRes.status === 401) throw new Error("Invalid API key. Contact the server admin.");
+        if (createRes.status === 403) throw new Error("API key lacks admin privileges. Contact the server admin.");
+        throw new Error(`Unexpected error (${createRes.status}). Try again or contact the admin.`);
+      }
+
+      const { Id: userId } = await createRes.json();
+
+      // Step 2: apply policy
+      await fetch(`${CONFIG.serverUrl}/Users/${userId}/Policy`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Emby-Authorization": `MediaBrowser Token="${CONFIG.apiKey}"`,
+        },
+        body: JSON.stringify(CONFIG.newUserPolicy),
+      });
+
+      // Mark token used
+      if (CONFIG.singleUse) {
+        localStorage.setItem("jf_used_" + CONFIG.singleUseToken, "1");
+      }
+
+      // Success — replace form with message
+      formEl.style.display = "none";
+      setStatus("Account created! You can now sign in to Patify.", "success");
+
+    } catch (err) {
+      setStatus(err.message, "error");
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+
+</body>
+</html>

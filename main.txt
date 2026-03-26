@@ -1,0 +1,10 @@
+Header: Welcome to Patify
+
+{email field}
+{password field}
+
+Tips:
+* visit mypatify.com to add movies and shows
+* download jellyfin app on the device you use to watch tv -or-
+* search for other jellyfin apps for better experience (i recommend wholphin and moonfin)
+* apps on streaming devices work better than smart tv apps (firestick, onn box from Walmart, nvidia shield, roku as last resort)

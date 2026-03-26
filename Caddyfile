@@ -1,0 +1,3 @@
+invite.mypatify.com {
+    reverse_proxy jellyfin-invite:80
+}

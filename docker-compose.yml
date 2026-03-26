@@ -1,0 +1,9 @@
+services:
+  jellyfin-invite:
+    build: .
+    container_name: jellyfin-invite
+    ports:
+      - "8097:80"
+    environment:
+      - INVITE_BASE_URL=https://invite.mypatify.com
+    restart: unless-stopped
