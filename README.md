@@ -1,6 +1,6 @@
 # jellyfin-invite
 
-> **Heads up:** This repo is built around my specific personal setup — hardcoded server URLs, my branding ("Patify"), my Docker/Caddy stack, and my own Jellyfin instance. It is published publicly for reference, but it will not work for you without meaningful changes. Treat it as a starting point, not a drop-in solution.
+> **Heads up:** This repo is built around my specific personal setup — hardcoded server URLs, my branding, my Docker/Caddy stack, and my own Jellyfin instance. It is published publicly for reference, but it will not work for you without meaningful changes. Treat it as a starting point, not a drop-in solution.
 
 A single-file invite page for a self-hosted [Jellyfin](https://jellyfin.org) server. An admin sends someone a link; they open it, pick a username and password, and an account is created instantly — no backend, no database, no email flow.
 
