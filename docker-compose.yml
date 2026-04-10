@@ -6,6 +6,8 @@ services:
       - "8097:80"
     environment:
       - INVITE_BASE_URL=${INVITE_BASE_URL}
+      - JELLYFIN_SERVER_URL=${JELLYFIN_SERVER_URL}
+      - JELLYFIN_API_KEY=${JELLYFIN_API_KEY}
       - JELLYFIN_URL=${JELLYFIN_URL}
       - SITE_URL=${SITE_URL}
     restart: unless-stopped
